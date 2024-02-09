@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partial/header.ejs') %>
+<style>
+    .details{
+        position: relative;
+    }
+    .delete{
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 50%;
+        padding: 8px;
+        text-decoration: none;
+    }
+    .delete:hover{
+        cursor: pointer;
+        box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+    }
+</style>
+<body>
+
+    <!-- to pass data manually from the same page in ejs -->
+    <% const name = 'mario' %>
+    <p><%= name %></p>
+
+
+    <h1>This is my home page | <%=title %></h1> <!-- passing data dynamically from app.js file from route -->
+    
+    <%- include('./partial/nav.ejs') %> <!-- here we are calling nav component which is called as partial in node. -->
+    <!-- we use '=' to insert string or data but we use'=' to insert components -->
+
+    <div class="details content">
+        <h2><%= blog.title %></h2>
+        <div class="content">
+            <p><%= blog.body  %></p>
+        </div>
+        <a class="delete" data-doc="<%= blog._id %>">Delete</a>
+    </div>
+
+    <script>
+        const trashcan = document.querySelector('a.delete');
+
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/blog/${trashcan.dataset.doc}`;
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then((res) => {
+                res.json()
+            })
+            .then((data) => 
+                window.location.href = data.redirect
+            )
+            .catch(err => console.log(err));
+        })
+    </script>
+</body>
+<%- include('./partial/footer.ejs') %>
+</html>

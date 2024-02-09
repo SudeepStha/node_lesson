@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partial/header.ejs') %>
+<body>
+
+    <!-- to pass data manually from the same page in ejs -->
+    <% const name = 'mario' %>
+    <p><%= name %></p>
+
+
+    <h1>This is my home page | <%=title %></h1> <!-- passing data dynamically from app.js file from route -->
+    
+    <%- include('./partial/nav.ejs') %> <!-- here we are calling nav component which is called as partial in node. -->
+    <!-- we use '=' to insert string or data but we use'=' to insert components -->
+
+    <div class="blogs content">
+        <h2>All Blogs</h2>
+
+        <% if(blogs.length > 0){ %>
+            <% blogs.forEach(blog => { %>
+                <a class="single" href="/blog/<%=blog._id %>">
+                    <h3 class="title"><%=blog.title  %></h3>
+                    <p class="snippet"><%=blog.snippet  %></p>
+                </a>
+            <% }) %>
+        <% }else { %>
+            <p>There are no blogs to display....</p>
+        <% } %>
+    </div>
+</body>
+<%- include('./partial/footer.ejs') %>
+</html>
